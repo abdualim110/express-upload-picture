@@ -245,6 +245,13 @@ router.route('/:id/edit')
               if (process.env.NODE_ENV != 'production')
               {
                 fs.unlinkSync('public/'+picture.file);
+              }else{
+                var picture_name = picture.file
+                var picture_key = name.substr(name.lastIndexOf("/") + 1);
+                s3.deleteObject({
+                  Bucket: process.env.S3_FOG_DIRECTORY,
+                  Key: picture_key
+                });
               }
               console.log('successfully deleted image');
               picture.remove(function (err, picture) {
