@@ -77,7 +77,7 @@ router.route('/')
     .post(upload.single('sampleFile'), function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         var name = req.body.name;
-        console.log(req.file.path)
+        console.log(req.file)
         var file = req.file.path.replace('public/', '');
         var created_at = new Date();
         //call the create function for our database
