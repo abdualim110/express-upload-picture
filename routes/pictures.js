@@ -247,7 +247,7 @@ router.route('/:id/edit')
                 fs.unlinkSync('public/'+picture.file);
               }else{
                 var picture_name = picture.file
-                var picture_key = name.substr(name.lastIndexOf("/") + 1);
+                var picture_key = picture_name.substr(picture_name.lastIndexOf("/") + 1);
                 console.log(picture_key)
                 s3.deleteObject({
                   Bucket: process.env.S3_FOG_DIRECTORY,
