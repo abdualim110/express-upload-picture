@@ -20,6 +20,11 @@ if (process.env.NODE_ENV == "production"){
       },
       key: function (req, file, cb) {
         cb(null, Date.now().toString())
+      },
+      filename:function (req, file, cb) {
+        var name = file.originalname
+        var extension = name.substr(name.lastIndexOf(".") + 1);
+        cb(null, file.fieldname + '-' + Date.now()+'.'+extension);
       }
     })
   })
@@ -76,9 +81,15 @@ router.route('/')
 
     .post(upload.single('sampleFile'), function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+        var file =""
         var name = req.body.name;
-        console.log(req.file)
-        var file = req.file.path.replace('public/', '');
+        if (process.env.NODE_ENV != "production"){
+          console.log(req.file.path)
+          var file = req.file.path.replace('public/', '');
+        }else{
+          console.log(req.file)
+          var file = req.file.location
+        }
         var created_at = new Date();
         //call the create function for our database
         mongoose.model('Picture').create({
