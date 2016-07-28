@@ -19,9 +19,6 @@ if (process.env.NODE_ENV == "production"){
         cb(null, {fieldName: file.fieldname});
       },
       key: function (req, file, cb) {
-        cb(null, Date.now().toString())
-      },
-      filename:function (req, file, cb) {
         var name = file.originalname
         var extension = name.substr(name.lastIndexOf(".") + 1);
         cb(null, file.fieldname + '-' + Date.now()+'.'+extension);
@@ -243,7 +240,10 @@ router.route('/:id/edit')
           } else {
               //remove it from Mongo and remove picture
               console.log(picture.file)
-              fs.unlinkSync('public/'+picture.file);
+              if (process.env.NODE_ENV != 'production')
+              {
+                fs.unlinkSync('public/'+picture.file);
+              }
               console.log('successfully deleted image');
               picture.remove(function (err, picture) {
                   if (err) {
