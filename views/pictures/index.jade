@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  h1.
+    #{title}
+  br
+  p
+    a(href="pictures/new" class="btn btn-default") New Pictures
+  table.table.table-bordered
+    thead
+      tr
+        th Name
+        th Image
+        th
+    tbody
+      - each picture, i in pictures
+        tr
+          td= picture.name
+          td
+            img.picture-thumb(src="#{picture.file}")
+          td
+            ul.list-inline
+              li
+                form(action='/pictures/#{picture._id}/edit',method='post',enctype='application/x-www-form-urlencoded')
+                  input(type='hidden',value='DELETE',name='_method')
+                  button(type='submit' class='btn btn-danger').
+                    Delete
+
+

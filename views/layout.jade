@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+    script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
+  body
+    nav.navbar.navbar-default(role="navigation" style="height: 20px;")
+      .container
+        .navbar-header
+          a(href="/" class="navbar-brand")
+            b
+              | Home
+        #navbarCollapse.collapse.navbar-collapse
+          .nav.navbar-nav.navbar-right
+            ul.list-inline
+              li
+                a(href="/pictures" class="navbar-brand") List All Images
+    .container
+      block content
