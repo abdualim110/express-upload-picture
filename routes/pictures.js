@@ -15,7 +15,7 @@ if (process.env.NODE_ENV == "production"){
     storage: multerS3({
       s3: s3,
       bucket: process.env.S3_FOG_DIRECTORY,
-      acl: 'public-read',
+      acl: 'public-read-write',
       metadata: function (req, file, cb) {
         cb(null, {fieldName: file.fieldname});
       },
