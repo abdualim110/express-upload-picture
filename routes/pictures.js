@@ -62,81 +62,82 @@ router.route('/')
               }
         });
     })
-    //POST a new picture
-    if (process.env.NODE_ENV == "production"){
-      .post(multer({ dest: './uploads/'}).single('upl'), function(req, res) {
-          // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-          var url_file = ""
-          client.putFile(req.file.path, '/user.jpg', function(err, response){
-            if (err) console.log(err)
-            res.status(200).send({url: response.req.url})
-            url_file = response.req.url
-          });
-          var name = req.body.name;
-          var file = url_file
-          var created_at = new Date();
-          //call the create function for our database
-          mongoose.model('Picture').create({
-              name : name,
-              file : file,
-              created_at: created_at
-          }, function (err, picture) {
-                if (err) {
-                    res.send("There was a problem adding the information to the database.");
-                } else {
-                    //picture has been created
-                    console.log('POST creating new picture: ' + picture);
-                    res.format({
-                        //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
-                      html: function(){
-                          // If it worked, set the header so the address bar doesn't still say /adduser
-                          res.location("pictures");
-                          // And forward to success page
-                          res.redirect("/pictures");
-                      },
-                      //JSON response will show the newly created picture
-                      json: function(){
-                          res.json(picture);
-                      }
-                  });
-                }
-          })
+//POST a new picture
+if (process.env.NODE_ENV == "production"){
+  console.log("test")
+  router.route('/').post(multer({ dest: './uploads/'}).single('upl'), function(req, res) {
+      // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+      var url_file = ""
+      client.putFile(req.file.path, '/user.jpg', function(err, response){
+        if (err) console.log(err)
+        res.status(200).send({url: response.req.url})
+        url_file = response.req.url
       });
-    }else{
-      .post(upload.single('sampleFile'), function(req, res) {
-          // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-          var name = req.body.name;
-          console.log(req.file.path)
-          var file = req.file.path.replace('public/', '');
-          var created_at = new Date();
-          //call the create function for our database
-          mongoose.model('Picture').create({
-              name : name,
-              file : file,
-              created_at: created_at
-          }, function (err, picture) {
-                if (err) {
-                    res.send("There was a problem adding the information to the database.");
-                } else {
-                    //picture has been created
-                    console.log('POST creating new picture: ' + picture);
-                    res.format({
-                        //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
-                      html: function(){
-                          // If it worked, set the header so the address bar doesn't still say /adduser
-                          res.location("pictures");
-                          // And forward to success page
-                          res.redirect("/pictures");
-                      },
-                      //JSON response will show the newly created picture
-                      json: function(){
-                          res.json(picture);
-                      }
-                  });
-                }
-          })
-      });
-    }
+      var name = req.body.name;
+      var file = url_file
+      var created_at = new Date();
+      //call the create function for our database
+      mongoose.model('Picture').create({
+          name : name,
+          file : file,
+          created_at: created_at
+      }, function (err, picture) {
+            if (err) {
+                res.send("There was a problem adding the information to the database.");
+            } else {
+                //picture has been created
+                console.log('POST creating new picture: ' + picture);
+                res.format({
+                    //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
+                  html: function(){
+                      // If it worked, set the header so the address bar doesn't still say /adduser
+                      res.location("pictures");
+                      // And forward to success page
+                      res.redirect("/pictures");
+                  },
+                  //JSON response will show the newly created picture
+                  json: function(){
+                      res.json(picture);
+                  }
+              });
+            }
+      })
+  });
+}else{
+  router.route('/').post(upload.single('sampleFile'), function(req, res) {
+      // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+      var name = req.body.name;
+      console.log(req.file.path)
+      var file = req.file.path.replace('public/', '');
+      var created_at = new Date();
+      //call the create function for our database
+      mongoose.model('Picture').create({
+          name : name,
+          file : file,
+          created_at: created_at
+      }, function (err, picture) {
+            if (err) {
+                res.send("There was a problem adding the information to the database.");
+            } else {
+                //picture has been created
+                console.log('POST creating new picture: ' + picture);
+                res.format({
+                    //HTML response will set the location and redirect back to the home page. You could also create a 'success' page if that's your thing
+                  html: function(){
+                      // If it worked, set the header so the address bar doesn't still say /adduser
+                      res.location("pictures");
+                      // And forward to success page
+                      res.redirect("/pictures");
+                  },
+                  //JSON response will show the newly created picture
+                  json: function(){
+                      res.json(picture);
+                  }
+              });
+            }
+      })
+  });
+}
 
 /* GET New picture page. */
 router.get('/new', function(req, res) {
