@@ -248,6 +248,7 @@ router.route('/:id/edit')
               }else{
                 var picture_name = picture.file
                 var picture_key = name.substr(name.lastIndexOf("/") + 1);
+                console.log(picture_key)
                 s3.deleteObject({
                   Bucket: process.env.S3_FOG_DIRECTORY,
                   Key: picture_key
