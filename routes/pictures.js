@@ -1,3 +1,4 @@
+var aws = require('aws-sdk')
 var express = require('express');
 var fileUpload = require('express-fileupload');
 var router = express.Router();
@@ -7,9 +8,9 @@ var methodOverride = require('method-override'); //used to manipulate POST
 var multiparty = require('multiparty');
 var multer  = require('multer');
 var multerS3 = require('multer-s3')
-var s3 = new aws.S3({ /* ... */ })
 var fs = require('fs');
 if (process.env.NODE_ENV == "production"){
+  var s3 = new aws.S3({"accessKeyId": process.env.S3_ACCESS_KEY_ID , "secretAccessKey": process.env.S3_SECRET_ACCESS_KEY})
   var upload = multer({
     storage: multerS3({
       s3: s3,
