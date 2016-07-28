@@ -10,7 +10,7 @@ var multer  = require('multer');
 var multerS3 = require('multer-s3')
 var fs = require('fs');
 if (process.env.NODE_ENV == "production"){
-  var s3 = new aws.S3({"accessKeyId": process.env.S3_ACCESS_KEY_ID , "secretAccessKey": process.env.S3_SECRET_ACCESS_KEY})
+  var s3 = new aws.S3({accessKeyId: process.env.S3_ACCESS_KEY_ID , secretAccessKey: process.env.S3_SECRET_ACCESS_KEY});
   var upload = multer({
     storage: multerS3({
       s3: s3,
@@ -19,6 +19,7 @@ if (process.env.NODE_ENV == "production"){
         cb(null, {fieldName: file.fieldname});
       },
       key: function (req, file, cb) {
+        console.log(process.env.S3_ACCESS_KEY_ID)
         var name = file.originalname
         var extension = name.substr(name.lastIndexOf(".") + 1);
         cb(null, file.fieldname + '-' + Date.now()+'.'+extension);
